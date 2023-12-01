@@ -9,10 +9,33 @@ using namespace std;
 
 class Game
 {
-public:
+public: 
+  static int totalGames;
   string category;
   string level;
   bool restart = 1;
+  static inline void delay(int milli_seconds)
+  {
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds);
+  }
+  static void loading(int milli_seconds)
+  {
+    system("CLS");
+    cout<<"Game No."<<++totalGames<<endl;
+    cout << "Loading";
+    for (int i = 0; i < milli_seconds/1000; i++)
+    {
+      for(int i = 0;i < milli_seconds/1000;i++){
+      delay(500);
+      cout << ".";
+      }
+      for(int i = 0;i < milli_seconds/1000;i++){
+        cout<<"\b \b";
+      }
+    }
+    system("CLS");
+  }
   Game()
   {
     this->category = "Animals";
@@ -25,6 +48,8 @@ public:
   }
 };
 
+int Game::totalGames = 0;
+
 class Word : public Game
 {
 public:
@@ -33,6 +58,7 @@ public:
   string initialword;
   string word;
   char letter;
+  
   Word()
   {
     system("CLS");
@@ -228,17 +254,18 @@ public:
 int main()
 {
   bool restart = 1;
-  while (restart == 1)
+  while (restart)
   {
     Word *fi = new Word();
+    Game::loading(5000);
     fi->loop();
     delete fi;
     delete fi->obj;
     cout << "Press 1 to restart and 0 to exit" << endl;
     cin >> restart;
-    if (restart == 1)
+    if (restart)
     {
-      restart = 1;
+      continue;
     }
     else
     {
